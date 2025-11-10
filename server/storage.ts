@@ -1,5 +1,3 @@
-console.log("DB type:", typeof db?.select);
-
 import { db } from "./db";
 import { users } from "@shared/schema";
 import { eq } from "drizzle-orm";
@@ -31,14 +29,21 @@ export const storage = {
     password_hash: string;
     plan?: string;
   }): Promise<User> {
-    const [newUser] = await db
+    // Вставляем пользователя
+    const insertResult = await db
       ?.insert(users)
       .values({
         email: data.email,
         password_hash: data.password_hash,
         plan: data.plan ?? "free",
-      })
-      .returning();
+      });
+
+    // Получаем ID вставленного пользователя (для MySQL Drizzle возвращает insertId)
+    const [newUser] = await db
+      ?.select()
+      .from(users)
+      .where(eq(users.email, data.email))
+      .limit(1);
 
     return newUser!;
   },

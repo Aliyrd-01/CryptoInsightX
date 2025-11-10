@@ -3,7 +3,6 @@ import { mysqlTable, varchar, text, datetime } from "drizzle-orm/mysql-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-// Таблица user
 export const users = mysqlTable("user", {
   id: varchar("id", { length: 36 }).primaryKey().default(sql`(UUID())`),
   email: text("email").notNull().unique(),
@@ -12,20 +11,20 @@ export const users = mysqlTable("user", {
   plan: text("plan").default("free"),
 });
 
-// Схема для вставки пользователя (без id, created_at, plan)
+// --- Важно: исключаем system-поля и password_hash ---
 export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   created_at: true,
-  plan: true,
+  password_hash: true,
+}).extend({
+  password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
-// Схема для логина
 export const loginSchema = z.object({
   email: z.string().email(),
-  password: z.string().min(6),
+  password: z.string().min(6, "Password must be at least 6 characters long"),
 });
 
-// Типы
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type LoginData = z.infer<typeof loginSchema>;
