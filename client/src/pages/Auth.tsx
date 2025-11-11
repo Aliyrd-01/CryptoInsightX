@@ -1,35 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useSearch } from "wouter";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card } from "../components/ui/card";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { ArrowLeft, Loader2 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
-import { useAuth } from "@/lib/auth";
+import { useToast } from "../hooks/use-toast";
+import { useAuth } from "../lib/auth";
 
 export default function Auth() {
   const [, setLocation] = useLocation();
   const searchParams = useSearch();
   const { toast } = useToast();
-  const { login, register } = useAuth();
-  const defaultTab = searchParams.includes('mode=signup') ? 'signup' : 'signin';
+  const { login, register, user, loading } = useAuth();
+  const defaultTab = searchParams.includes("mode=signup") ? "signup" : "signin";
 
-  const [signInData, setSignInData] = useState({ email: '', password: '' });
-  const [signUpData, setSignUpData] = useState({ email: '', password: '', confirmPassword: '', name: '' });
+  const [signInData, setSignInData] = useState({ email: "", password: "" });
+  const [signUpData, setSignUpData] = useState({ email: "", password: "", confirmPassword: "", name: "" });
   const [isLoading, setIsLoading] = useState(false);
+
+  // Если пользователь уже аутентифицирован или стал аутентифицирован — увести на дашборд
+  useEffect(() => {
+    if (!loading && user) {
+      setLocation("/dashboard");
+    }
+  }, [loading, user, setLocation]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
       await login(signInData.email, signInData.password);
       toast({
         title: "Welcome back!",
         description: "Successfully signed in to your account.",
       });
+      // Перенаправляем на дашборд
+      setLocation("/dashboard");
     } catch (error) {
       toast({
         title: "Error",
@@ -43,7 +52,7 @@ export default function Auth() {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (signUpData.password !== signUpData.confirmPassword) {
       toast({
         title: "Error",
@@ -63,13 +72,20 @@ export default function Auth() {
     }
 
     setIsLoading(true);
-    
+
     try {
+      // Регистрируем и сразу логиним
       await register(signUpData.email, signUpData.password, signUpData.name);
       toast({
         title: "Account created!",
         description: "Welcome to Crypto Analyzer.",
       });
+
+      // Автологин после регистрации
+      await login(signUpData.email, signUpData.password);
+
+      // Перенаправляем на дашборд
+      setLocation("/dashboard");
     } catch (error) {
       toast({
         title: "Error",
@@ -85,14 +101,14 @@ export default function Auth() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-background via-background to-card p-6">
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-[128px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-[128px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-[128px] animate-pulse" style={{ animationDelay: "1s" }} />
       </div>
 
       <div className="relative w-full max-w-md space-y-6">
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => setLocation('/')}
+          onClick={() => setLocation("/")}
           data-testid="button-back-home"
           className="mb-4"
         >
@@ -144,7 +160,7 @@ export default function Auth() {
                 </div>
                 <Button type="submit" className="w-full" disabled={isLoading} data-testid="button-signin-submit">
                   {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {isLoading ? 'Signing in...' : 'Sign In'}
+                  {isLoading ? "Signing in..." : "Sign In"}
                 </Button>
               </form>
             </TabsContent>
@@ -204,7 +220,7 @@ export default function Auth() {
                 </div>
                 <Button type="submit" className="w-full" disabled={isLoading} data-testid="button-signup-submit">
                   {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {isLoading ? 'Creating account...' : 'Create Account'}
+                  {isLoading ? "Creating account..." : "Create Account"}
                 </Button>
               </form>
             </TabsContent>

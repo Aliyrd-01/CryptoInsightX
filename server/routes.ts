@@ -11,21 +11,19 @@ import { pool } from "./db";
 const MySQLStore = MySQLStoreFactory(session);
 const MemoryStoreSession = MemoryStore(session);
 
-declare module 'express-session' {
+declare module "express-session" {
   interface SessionData {
     userId?: string;
   }
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // Create session store - use MySQL if available, otherwise use memory store
-  const sessionStore = pool 
+  const sessionStore = pool
     ? new MySQLStore({}, pool as any)
     : new MemoryStoreSession({
-        checkPeriod: 86400000 // prune expired entries every 24h
+        checkPeriod: 86400000,
       });
 
-  // Session middleware
   app.use(
     session({
       secret: process.env.SESSION_SECRET || "crypto-analyzer-secret-key-change-in-production",
@@ -35,36 +33,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
       cookie: {
         secure: process.env.NODE_ENV === "production",
         httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        maxAge: 1000 * 60 * 60 * 24 * 7,
       },
     })
   );
 
-  // Register endpoint
+  // --- Register ---
   app.post("/api/auth/register", async (req, res) => {
     try {
       const validatedData = insertUserSchema.parse(req.body);
-      
-      // Check if user already exists
-      const existingUser = await storage.getUserByEmail(validatedData.email);
-      if (existingUser) {
-        return res.status(400).json({ error: "User with this email already exists" });
-      }
 
-      // Hash password
+      const existingUser = await storage.getUserByEmail(validatedData.email);
+      if (existingUser) return res.status(400).json({ error: "User with this email already exists" });
+
       const hashedPassword = await bcrypt.hash(validatedData.password, 10);
-      
-      // Create user
+
       const user = await storage.createUser({
         ...validatedData,
         password_hash: hashedPassword,
       });
 
-      // Set session
+      // Устанавливаем сессию сразу
       req.session.userId = user.id;
 
-      // Return user without password
-      const { password, ...userWithoutPassword } = user;
+      const { password_hash, ...userWithoutPassword } = user;
       res.json(userWithoutPassword);
     } catch (error) {
       console.error("Registration error:", error);
@@ -72,28 +64,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Login endpoint
+  // --- Login ---
   app.post("/api/auth/login", async (req, res) => {
     try {
       const validatedData = loginSchema.parse(req.body);
-      
-      // Find user
       const user = await storage.getUserByEmail(validatedData.email);
-      if (!user) {
-        return res.status(401).json({ error: "Invalid email or password" });
-      }
+      if (!user) return res.status(401).json({ error: "Invalid email or password" });
 
-      // Verify password
       const isValidPassword = await bcrypt.compare(validatedData.password, user.password_hash);
-      if (!isValidPassword) {
-        return res.status(401).json({ error: "Invalid email or password" });
-      }
+      if (!isValidPassword) return res.status(401).json({ error: "Invalid email or password" });
 
-      // Set session
       req.session.userId = user.id;
 
-      // Return user without password
-      const { password, ...userWithoutPassword } = user;
+      const { password_hash, ...userWithoutPassword } = user;
       res.json(userWithoutPassword);
     } catch (error) {
       console.error("Login error:", error);
@@ -101,32 +84,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Logout endpoint
+  // --- Logout ---
   app.post("/api/auth/logout", (req, res) => {
     req.session.destroy((err) => {
-      if (err) {
-        return res.status(500).json({ error: "Failed to logout" });
-      }
+      if (err) return res.status(500).json({ error: "Failed to logout" });
       res.json({ message: "Logged out successfully" });
     });
   });
 
-  // Get current user endpoint
+  // --- Current user ---
   app.get("/api/auth/me", async (req, res) => {
-    if (!req.session.userId) {
-      return res.status(401).json({ error: "Not authenticated" });
-    }
+    if (!req.session.userId) return res.status(401).json({ error: "Not authenticated" });
 
     const user = await storage.getUser(req.session.userId);
-    if (!user) {
-      return res.status(401).json({ error: "User not found" });
-    }
+    if (!user) return res.status(401).json({ error: "User not found" });
 
-    const { password, ...userWithoutPassword } = user;
+    const { password_hash, ...userWithoutPassword } = user;
     res.json(userWithoutPassword);
   });
 
-  const httpServer = createServer(app);
-
-  return httpServer;
+  return createServer(app);
 }
