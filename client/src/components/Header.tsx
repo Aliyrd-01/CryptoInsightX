@@ -20,6 +20,34 @@ export default function Header() {
           </button>
 
           <div className="flex items-center gap-3">
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => {
+                const element = document.getElementById('trading-analyzer');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                  setLocation('/#trading-analyzer');
+                }
+              }}
+            >
+              Trading Analyzer
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => {
+                const element = document.getElementById('arbitrage-tool');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                  setLocation('/#arbitrage-tool');
+                }
+              }}
+            >
+              Arbitrage Tool
+            </Button>
             {loading ? (
               <div className="w-24 h-9 bg-muted/50 animate-pulse rounded-lg" />
             ) : user ? (

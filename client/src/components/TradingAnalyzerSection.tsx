@@ -1,6 +1,8 @@
-import { TrendingUp, Target, BarChart3, Zap } from "lucide-react";
+import { TrendingUp, Target, BarChart3, Zap, Download } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
 import analyzerImage from "@assets/generated_images/Trading_analyzer_clay_character_5152b1a0.png";
 
 const features = [
@@ -27,8 +29,10 @@ const features = [
 ];
 
 export default function TradingAnalyzerSection() {
+  const [, setLocation] = useLocation();
+  
   return (
-    <section className="relative py-20 lg:py-32 overflow-hidden" data-testid="section-trading-analyzer">
+    <section id="trading-analyzer" className="relative py-20 lg:py-32 overflow-hidden" data-testid="section-trading-analyzer">
       <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50" />
       
       <div className="max-w-7xl mx-auto px-6">
@@ -83,6 +87,17 @@ export default function TradingAnalyzerSection() {
                   </div>
                 </Card>
               ))}
+            </div>
+            
+            <div className="pt-4">
+              <Button 
+                size="lg"
+                className="w-full sm:w-auto"
+                onClick={() => setLocation('/download#trading-analyzer')}
+              >
+                <Download className="mr-2 h-5 w-5" />
+                Download Trading Analyzer
+              </Button>
             </div>
           </div>
         </div>

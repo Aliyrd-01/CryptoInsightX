@@ -22,7 +22,14 @@ export default function Footer() {
                 variant="ghost" 
                 className="justify-start px-0 h-auto"
                 data-testid="link-trading-analyzer"
-                onClick={() => console.log('Navigate to Trading Analyzer')}
+                onClick={() => {
+                  const element = document.getElementById('trading-analyzer');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  } else {
+                    window.location.href = '/#trading-analyzer';
+                  }
+                }}
               >
                 Trading Analyzer
               </Button>
@@ -30,7 +37,14 @@ export default function Footer() {
                 variant="ghost" 
                 className="justify-start px-0 h-auto"
                 data-testid="link-arbitrage-tool"
-                onClick={() => console.log('Navigate to Arbitrage Tool')}
+                onClick={() => {
+                  const element = document.getElementById('arbitrage-tool');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  } else {
+                    window.location.href = '/#arbitrage-tool';
+                  }
+                }}
               >
                 Arbitrage Tool
               </Button>

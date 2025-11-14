@@ -1,10 +1,12 @@
 import { Download, PlayCircle, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
 import heroImage from "@assets/generated_images/Hero_clay_trader_character_35407cc4.png";
 import bitcoinCoin from "@assets/generated_images/Bitcoin_coin_decorative_element_d72218ff.png";
 import ethCoin from "@assets/generated_images/Ethereum_coin_decorative_element_1ec73c3d.png";
 
 export default function HeroSection() {
+  const [, setLocation] = useLocation();
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background via-background to-card pt-20">
       <div className="absolute inset-0 overflow-hidden">
@@ -41,7 +43,7 @@ export default function HeroSection() {
                 size="lg" 
                 className="text-base px-8 h-12"
                 data-testid="button-download-app"
-                onClick={() => console.log('Download app clicked')}
+                onClick={() => setLocation('/download')}
               >
                 <Download className="mr-2 h-5 w-5" />
                 Download App

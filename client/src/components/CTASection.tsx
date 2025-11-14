@@ -1,9 +1,11 @@
 import { Download, PlayCircle, BookOpen, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { useLocation } from "wouter";
 import bitcoinCoin from "@assets/generated_images/Bitcoin_coin_decorative_element_d72218ff.png";
 
 export default function CTASection() {
+  const [, setLocation] = useLocation();
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden" data-testid="section-cta">
       <div className="absolute inset-0">
@@ -31,7 +33,7 @@ export default function CTASection() {
                 size="lg" 
                 className="text-base px-8 h-12 group"
                 data-testid="button-cta-download"
-                onClick={() => console.log('CTA Download clicked')}
+                onClick={() => setLocation('/download')}
               >
                 <Download className="mr-2 h-5 w-5" />
                 Download App

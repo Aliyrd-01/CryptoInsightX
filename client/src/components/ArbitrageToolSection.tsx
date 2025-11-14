@@ -1,6 +1,8 @@
-import { Repeat, Timer, DollarSign, Shield } from "lucide-react";
+import { Repeat, Timer, DollarSign, Shield, Download } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useLocation } from "wouter";
 import arbitrageImage from "@assets/generated_images/Arbitrage_tool_clay_character_9f75fc74.png";
 
 const features = [
@@ -27,8 +29,10 @@ const features = [
 ];
 
 export default function ArbitrageToolSection() {
+  const [, setLocation] = useLocation();
+  
   return (
-    <section className="relative py-20 lg:py-32 bg-gradient-to-b from-background to-card overflow-hidden" data-testid="section-arbitrage-tool">
+    <section id="arbitrage-tool" className="relative py-20 lg:py-32 bg-gradient-to-b from-background to-card overflow-hidden" data-testid="section-arbitrage-tool">
       <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-secondary to-transparent opacity-50" />
       
       <div className="max-w-7xl mx-auto px-6">
@@ -66,6 +70,18 @@ export default function ArbitrageToolSection() {
                   </div>
                 </Card>
               ))}
+            </div>
+            
+            <div className="pt-4">
+              <Button 
+                size="lg"
+                variant="secondary"
+                className="w-full sm:w-auto"
+                onClick={() => setLocation('/download#arbitrage-tool')}
+              >
+                <Download className="mr-2 h-5 w-5" />
+                Download Arbitrage Tool
+              </Button>
             </div>
           </div>
 
