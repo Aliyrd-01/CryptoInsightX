@@ -2,10 +2,12 @@ import { Download, PlayCircle, BookOpen, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { useLocation } from "wouter";
+import { useLanguage } from '@/lib/i18n';
 import bitcoinCoin from "@assets/generated_images/Bitcoin_coin_decorative_element_d72218ff.png";
 
 export default function CTASection() {
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden" data-testid="section-cta">
       <div className="absolute inset-0">
@@ -21,10 +23,10 @@ export default function CTASection() {
           <div className="space-y-8">
             <div className="space-y-4">
               <h2 className="text-4xl lg:text-6xl font-bold tracking-tight">
-                Ready to Start Trading Smarter?
+                {t('cta.title')}
               </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Join thousands of successful traders and take your crypto trading to the next level with our advanced tools
+                {t('cta.description')}
               </p>
             </div>
 
@@ -36,7 +38,7 @@ export default function CTASection() {
                 onClick={() => setLocation('/download')}
               >
                 <Download className="mr-2 h-5 w-5" />
-                Download App
+                {t('hero.downloadApp')}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
               <Button 
@@ -47,7 +49,7 @@ export default function CTASection() {
                 onClick={() => console.log('CTA Demo clicked')}
               >
                 <PlayCircle className="mr-2 h-5 w-5" />
-                Try Demo Mode
+                {t('cta.tryDemo')}
               </Button>
               <Button 
                 size="lg" 
@@ -57,18 +59,18 @@ export default function CTASection() {
                 onClick={() => console.log('CTA Learn more clicked')}
               >
                 <BookOpen className="mr-2 h-5 w-5" />
-                Learn More
+                {t('hero.learnMore')}
               </Button>
             </div>
 
             <div className="pt-8 flex items-center justify-center gap-8 text-sm text-muted-foreground">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-                <span>No credit card required</span>
+                <span>{t('cta.noCard')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-                <span>Free demo available</span>
+                <span>{t('cta.freeDemo')}</span>
               </div>
             </div>
           </div>

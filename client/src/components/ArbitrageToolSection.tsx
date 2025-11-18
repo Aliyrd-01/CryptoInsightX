@@ -3,33 +3,35 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
+import { useLanguage } from '@/lib/i18n';
 import arbitrageImage from "@assets/generated_images/Arbitrage_tool_clay_character_9f75fc74.png";
-
-const features = [
-  {
-    icon: Repeat,
-    title: "Multi-Exchange Scanning",
-    description: "Monitor prices across major exchanges in real-time for arbitrage opportunities"
-  },
-  {
-    icon: Timer,
-    title: "Instant Opportunity Alerts",
-    description: "Get notified immediately when profitable price differences are detected"
-  },
-  {
-    icon: DollarSign,
-    title: "Profit Calculation",
-    description: "Automatic calculation of potential profits including all fees and slippage"
-  },
-  {
-    icon: Shield,
-    title: "Automated Execution Options",
-    description: "Execute arbitrage trades automatically with customizable risk parameters"
-  }
-];
 
 export default function ArbitrageToolSection() {
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      icon: Repeat,
+      titleKey: "arbitrage.feature1.title",
+      descriptionKey: "arbitrage.feature1.description"
+    },
+    {
+      icon: Timer,
+      titleKey: "arbitrage.feature2.title",
+      descriptionKey: "arbitrage.feature2.description"
+    },
+    {
+      icon: DollarSign,
+      titleKey: "arbitrage.feature3.title",
+      descriptionKey: "arbitrage.feature3.description"
+    },
+    {
+      icon: Shield,
+      titleKey: "arbitrage.feature4.title",
+      descriptionKey: "arbitrage.feature4.description"
+    }
+  ];
   
   return (
     <section id="arbitrage-tool" className="relative py-20 lg:py-32 bg-gradient-to-b from-background to-card overflow-hidden" data-testid="section-arbitrage-tool">
@@ -40,13 +42,13 @@ export default function ArbitrageToolSection() {
           <div className="space-y-8">
             <div className="space-y-4">
               <Badge variant="outline" className="text-secondary border-secondary/50" data-testid="badge-product-2">
-                Product 2
+                {t('arbitrage.badge')}
               </Badge>
               <h2 className="text-4xl lg:text-5xl font-bold tracking-tight">
-                Arbitrage Trading Tool
+                {t('arbitrage.title')}
               </h2>
               <p className="text-lg text-muted-foreground">
-                Exploit price differences across multiple exchanges with our advanced arbitrage scanner. Maximize profits with minimal risk through automated detection and execution.
+                {t('arbitrage.description')}
               </p>
             </div>
 
@@ -64,8 +66,8 @@ export default function ArbitrageToolSection() {
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <h3 className="font-semibold text-lg">{feature.title}</h3>
-                      <p className="text-sm text-muted-foreground">{feature.description}</p>
+                      <h3 className="font-semibold text-lg">{t(feature.titleKey)}</h3>
+                      <p className="text-sm text-muted-foreground">{t(feature.descriptionKey)}</p>
                     </div>
                   </div>
                 </Card>
@@ -80,7 +82,7 @@ export default function ArbitrageToolSection() {
                 onClick={() => setLocation('/download#arbitrage-tool')}
               >
                 <Download className="mr-2 h-5 w-5" />
-                Download Arbitrage Tool
+                {t('arbitrage.downloadButton')}
               </Button>
             </div>
           </div>

@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Download as DownloadIcon, TrendingUp, Repeat } from "lucide-react";
+import { useLanguage } from '@/lib/i18n';
 import analyzerImage from "@assets/generated_images/Trading_analyzer_clay_character_5152b1a0.png";
 import arbitrageImage from "@assets/generated_images/Arbitrage_tool_clay_character_9f75fc74.png";
 
@@ -28,6 +29,8 @@ const LinuxIcon = ({ className }: { className?: string }) => (
 );
 
 export default function Download() {
+  const { t } = useLanguage();
+  
   useEffect(() => {
     // Сначала прокручиваем вверх страницы
     window.scrollTo(0, 0);
@@ -80,10 +83,10 @@ export default function Download() {
           <div className="relative max-w-7xl mx-auto px-6">
             <div className="text-center space-y-6">
               <h1 className="text-5xl lg:text-6xl font-bold tracking-tight bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Download Our Tools
+                {t('download.title')}
               </h1>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Get the latest versions of our professional trading tools. Available for Windows, macOS, and Linux.
+                {t('download.description')}
               </p>
             </div>
           </div>
@@ -100,18 +103,18 @@ export default function Download() {
                       <TrendingUp className="w-6 h-6 text-primary" />
                     </div>
                     <Badge variant="outline" className="text-primary border-primary/50">
-                      Product 1
+                      {t('trading.badge')}
                     </Badge>
                   </div>
                   <h2 className="text-4xl lg:text-5xl font-bold tracking-tight">
-                    Trading Analyzer
+                    {t('trading.title')}
                   </h2>
                   <p className="text-lg text-muted-foreground">
-                    Professional-grade trading analysis tool with AI-powered insights and real-time market data.
+                    {t('download.tradingDescription')}
                   </p>
                   
                   <div className="space-y-4 pt-4">
-                    <h3 className="font-semibold text-lg">Download for:</h3>
+                    <h3 className="font-semibold text-lg">{t('download.downloadFor')}</h3>
                     <div className="grid sm:grid-cols-3 gap-4">
                       <Button
                         size="lg"
@@ -184,18 +187,18 @@ export default function Download() {
                       <Repeat className="w-6 h-6 text-secondary" />
                     </div>
                     <Badge variant="outline" className="text-secondary border-secondary/50">
-                      Product 2
+                      {t('arbitrage.badge')}
                     </Badge>
                   </div>
                   <h2 className="text-4xl lg:text-5xl font-bold tracking-tight">
-                    Arbitrage Trading Tool
+                    {t('arbitrage.title')}
                   </h2>
                   <p className="text-lg text-muted-foreground">
-                    Multi-exchange arbitrage scanner with automated execution and real-time opportunity detection.
+                    {t('download.arbitrageDescription')}
                   </p>
                   
                   <div className="space-y-4 pt-4">
-                    <h3 className="font-semibold text-lg">Download for:</h3>
+                    <h3 className="font-semibold text-lg">{t('download.downloadFor')}</h3>
                     <div className="grid sm:grid-cols-3 gap-4">
                       <Button
                         size="lg"

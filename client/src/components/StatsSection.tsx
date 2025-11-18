@@ -1,13 +1,8 @@
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
+import { useLanguage } from '@/lib/i18n';
 import ethCoin from "@assets/generated_images/Ethereum_coin_decorative_element_1ec73c3d.png";
 import usdtCoin from "@assets/generated_images/USDT_coin_decorative_element_37b35ab7.png";
-
-const stats = [
-  { label: "Trades Analyzed", value: 2500000, suffix: "+", prefix: "" },
-  { label: "Average Profit Increase", value: 47, suffix: "%", prefix: "" },
-  { label: "Active Users", value: 15000, suffix: "+", prefix: "" }
-];
 
 function CountUp({ end, duration = 2000 }: { end: number; duration?: number }) {
   const [count, setCount] = useState(0);
@@ -37,6 +32,14 @@ function CountUp({ end, duration = 2000 }: { end: number; duration?: number }) {
 }
 
 export default function StatsSection() {
+  const { t } = useLanguage();
+
+  const stats = [
+    { labelKey: "stats.dailyTrades", value: 2500000, suffix: "+", prefix: "" },
+    { labelKey: "stats.tradingVolume", value: 47, suffix: "%", prefix: "" },
+    { labelKey: "stats.activeUsers", value: 15000, suffix: "+", prefix: "" }
+  ];
+
   return (
     <section className="relative py-20 lg:py-32 overflow-hidden" data-testid="section-stats">
       <div className="absolute top-20 right-10 w-20 h-20 opacity-20 animate-spin" style={{ animationDuration: '20s' }}>
@@ -49,10 +52,10 @@ export default function StatsSection() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center space-y-4 mb-16">
           <h2 className="text-4xl lg:text-5xl font-bold tracking-tight">
-            Trusted by Traders Worldwide
+            {t('stats.title')}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Join thousands of successful traders using our tools to enhance their trading strategies
+            {t('stats.description')}
           </p>
         </div>
 
@@ -70,7 +73,7 @@ export default function StatsSection() {
                   {stat.suffix}
                 </div>
                 <div className="text-lg text-muted-foreground font-medium">
-                  {stat.label}
+                  {t(stat.labelKey)}
                 </div>
               </div>
             </Card>

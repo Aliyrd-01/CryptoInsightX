@@ -103,5 +103,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json(userWithoutPassword);
   });
 
+  // --- Update user plan ---
+  app.patch("/api/user/plan", async (req, res) => {
+    if (!req.session.userId) return res.status(401).json({ error: "Not authenticated" });
+
+    const { plan } = req.body;
+    if (!plan || !['free', 'pro', 'pro_plus'].includes(plan)) {
+      return res.status(400).json({ error: "Invalid plan" });
+    }
+
+    const updated = await storage.updateUserPlan(req.session.userId, plan);
+    if (!updated) return res.status(404).json({ error: "User not found" });
+
+    const { password_hash, ...userWithoutPassword } = updated;
+    res.json(userWithoutPassword);
+  });
+
   return createServer(app);
 }

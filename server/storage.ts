@@ -47,4 +47,12 @@ export const storage = {
 
     return newUser!;
   },
+
+  async updateUserPlan(id: string, plan: string): Promise<User | undefined> {
+    await db?.update(users)
+      .set({ plan })
+      .where(eq(users.id, id));
+
+    return this.getUser(id);
+  },
 };

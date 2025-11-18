@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     checkAuth();
   }, []);
 
-  const API_BASE_URL = 'https://papayawhip-alpaca-835460.hostingersite.com/api';
+  const API_BASE_URL = '/api';
 
   const checkAuth = async () => {
     try {

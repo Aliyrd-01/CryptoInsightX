@@ -5,10 +5,12 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LogOut, TrendingUp, Repeat, User, Mail } from "lucide-react";
 import { useEffect } from "react";
+import { useLanguage } from '@/lib/i18n';
 
 export default function Dashboard() {
   const { user, loading, logout } = useAuth();
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -75,24 +77,24 @@ export default function Dashboard() {
         <div className="space-y-8">
           <div className="space-y-2">
             <h1 className="text-4xl font-bold tracking-tight">
-              Welcome back, {user.name || 'Trader'}!
+              {t('dashboard.welcome')}, {user.name || 'Trader'}!
             </h1>
             <p className="text-lg text-muted-foreground">
-              Your trading dashboard is ready. Access powerful tools to analyze markets and execute trades.
+              {t('dashboard.description')}
             </p>
           </div>
 
           <Card className="p-8 border-primary/20 backdrop-blur-sm" data-testid="card-user-profile">
             <div className="space-y-6">
-              <h2 className="text-2xl font-bold">Profile Information</h2>
+              <h2 className="text-2xl font-bold">{t('dashboard.profile')}</h2>
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
                     <User className="w-6 h-6 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Name</p>
-                    <p className="font-medium">{user.name || 'Not set'}</p>
+                    <p className="text-sm text-muted-foreground">{t('dashboard.name')}</p>
+                    <p className="font-medium">{user.name || t('dashboard.notSet')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -100,7 +102,7 @@ export default function Dashboard() {
                     <Mail className="w-6 h-6 text-secondary" />
                   </div>
                   <div>
-                    <p className="text-sm text-muted-foreground">Email</p>
+                    <p className="text-sm text-muted-foreground">{t('auth.email')}</p>
                     <p className="font-medium">{user.email}</p>
                   </div>
                 </div>
@@ -116,17 +118,17 @@ export default function Dashboard() {
                     <TrendingUp className="w-7 h-7 text-primary" />
                   </div>
                   <Badge variant="outline" className="text-primary border-primary/50">
-                    Coming Soon
+                    {t('dashboard.comingSoon')}
                   </Badge>
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-bold">Trading Analyzer</h3>
+                  <h3 className="text-2xl font-bold">{t('trading.title')}</h3>
                   <p className="text-muted-foreground">
-                    Real-time indicator analysis, entry/exit signals, and smart trade recommendations powered by AI.
+                    {t('dashboard.tradingDescription')}
                   </p>
                 </div>
                 <Button className="w-full" disabled data-testid="button-launch-analyzer">
-                  Launch Analyzer
+                  {t('dashboard.launchAnalyzer')}
                 </Button>
               </div>
             </Card>
@@ -138,17 +140,17 @@ export default function Dashboard() {
                     <Repeat className="w-7 h-7 text-secondary" />
                   </div>
                   <Badge variant="outline" className="text-secondary border-secondary/50">
-                    Coming Soon
+                    {t('dashboard.comingSoon')}
                   </Badge>
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-2xl font-bold">Arbitrage Tool</h3>
+                  <h3 className="text-2xl font-bold">{t('arbitrage.title')}</h3>
                   <p className="text-muted-foreground">
-                    Multi-exchange scanning, instant opportunity alerts, and automated execution for maximum profit.
+                    {t('dashboard.arbitrageDescription')}
                   </p>
                 </div>
                 <Button className="w-full" disabled data-testid="button-launch-arbitrage">
-                  Launch Arbitrage Tool
+                  {t('dashboard.launchTool')}
                 </Button>
               </div>
             </Card>

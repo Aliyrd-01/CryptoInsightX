@@ -3,33 +3,35 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
+import { useLanguage } from '@/lib/i18n';
 import analyzerImage from "@assets/generated_images/Trading_analyzer_clay_character_5152b1a0.png";
-
-const features = [
-  {
-    icon: TrendingUp,
-    title: "Real-time Indicator Analysis",
-    description: "Advanced technical analysis across multiple timeframes with AI-powered insights"
-  },
-  {
-    icon: Target,
-    title: "Entry/Exit Point Detection",
-    description: "Smart algorithms identify optimal trade opportunities based on market conditions"
-  },
-  {
-    icon: BarChart3,
-    title: "Smart Trade Recommendations",
-    description: "Get actionable trading signals with risk assessment and profit targets"
-  },
-  {
-    icon: Zap,
-    title: "Historical Performance Tracking",
-    description: "Track your trading history and analyze performance metrics over time"
-  }
-];
 
 export default function TradingAnalyzerSection() {
   const [, setLocation] = useLocation();
+  const { t } = useLanguage();
+
+  const features = [
+    {
+      icon: TrendingUp,
+      titleKey: "trading.feature1.title",
+      descriptionKey: "trading.feature1.description"
+    },
+    {
+      icon: Target,
+      titleKey: "trading.feature2.title",
+      descriptionKey: "trading.feature2.description"
+    },
+    {
+      icon: BarChart3,
+      titleKey: "trading.feature3.title",
+      descriptionKey: "trading.feature3.description"
+    },
+    {
+      icon: Zap,
+      titleKey: "trading.feature4.title",
+      descriptionKey: "trading.feature4.description"
+    }
+  ];
   
   return (
     <section id="trading-analyzer" className="relative py-20 lg:py-32 overflow-hidden" data-testid="section-trading-analyzer">
@@ -57,13 +59,13 @@ export default function TradingAnalyzerSection() {
           <div className="space-y-8 order-1 lg:order-2">
             <div className="space-y-4">
               <Badge variant="outline" className="text-primary border-primary/50" data-testid="badge-product-1">
-                Product 1
+                {t('trading.badge')}
               </Badge>
               <h2 className="text-4xl lg:text-5xl font-bold tracking-tight">
-                Trading Analyzer
+                {t('trading.title')}
               </h2>
               <p className="text-lg text-muted-foreground">
-                Professional-grade trading analysis tool that combines technical indicators, market data, and AI insights to help you make informed trading decisions.
+                {t('trading.description')}
               </p>
             </div>
 
@@ -81,8 +83,8 @@ export default function TradingAnalyzerSection() {
                       </div>
                     </div>
                     <div className="space-y-1">
-                      <h3 className="font-semibold text-lg">{feature.title}</h3>
-                      <p className="text-sm text-muted-foreground">{feature.description}</p>
+                      <h3 className="font-semibold text-lg">{t(feature.titleKey)}</h3>
+                      <p className="text-sm text-muted-foreground">{t(feature.descriptionKey)}</p>
                     </div>
                   </div>
                 </Card>
@@ -96,7 +98,7 @@ export default function TradingAnalyzerSection() {
                 onClick={() => setLocation('/download#trading-analyzer')}
               >
                 <Download className="mr-2 h-5 w-5" />
-                Download Trading Analyzer
+                {t('trading.downloadButton')}
               </Button>
             </div>
           </div>

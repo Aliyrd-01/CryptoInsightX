@@ -8,12 +8,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { useToast } from "../hooks/use-toast";
 import { useAuth } from "../lib/auth";
+import { useLanguage } from '@/lib/i18n';
 
 export default function Auth() {
   const [, setLocation] = useLocation();
   const searchParams = useSearch();
   const { toast } = useToast();
   const { login, register, user, loading } = useAuth();
+  const { t } = useLanguage();
   const defaultTab = searchParams.includes("mode=signup") ? "signup" : "signin";
 
   const [signInData, setSignInData] = useState({ email: "", password: "" });
@@ -121,19 +123,19 @@ export default function Auth() {
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-2">
               Crypto Analyzer
             </h1>
-            <p className="text-muted-foreground">Access your trading dashboard</p>
+            <p className="text-muted-foreground">{t('auth.title')}</p>
           </div>
 
           <Tabs defaultValue={defaultTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 mb-6">
-              <TabsTrigger value="signin" data-testid="tab-signin">Sign In</TabsTrigger>
-              <TabsTrigger value="signup" data-testid="tab-signup">Sign Up</TabsTrigger>
+              <TabsTrigger value="signin" data-testid="tab-signin">{t('header.signIn')}</TabsTrigger>
+              <TabsTrigger value="signup" data-testid="tab-signup">{t('header.signUp')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="signin">
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signin-email">Email</Label>
+                  <Label htmlFor="signin-email">{t('auth.email')}</Label>
                   <Input
                     id="signin-email"
                     type="email"
@@ -146,7 +148,7 @@ export default function Auth() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signin-password">Password</Label>
+                  <Label htmlFor="signin-password">{t('auth.password')}</Label>
                   <Input
                     id="signin-password"
                     type="password"
@@ -160,7 +162,7 @@ export default function Auth() {
                 </div>
                 <Button type="submit" className="w-full" disabled={isLoading} data-testid="button-signin-submit">
                   {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {isLoading ? "Signing in..." : "Sign In"}
+                  {isLoading ? t('auth.signingIn') : t('header.signIn')}
                 </Button>
               </form>
             </TabsContent>
@@ -168,7 +170,7 @@ export default function Auth() {
             <TabsContent value="signup">
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="signup-name">Name (Optional)</Label>
+                  <Label htmlFor="signup-name">{t('auth.name')}</Label>
                   <Input
                     id="signup-name"
                     type="text"
@@ -180,7 +182,7 @@ export default function Auth() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
+                  <Label htmlFor="signup-email">{t('auth.email')}</Label>
                   <Input
                     id="signup-email"
                     type="email"
@@ -193,7 +195,7 @@ export default function Auth() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-password">Password</Label>
+                  <Label htmlFor="signup-password">{t('auth.password')}</Label>
                   <Input
                     id="signup-password"
                     type="password"
@@ -206,7 +208,7 @@ export default function Auth() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="signup-confirm-password">Confirm Password</Label>
+                  <Label htmlFor="signup-confirm-password">{t('auth.confirmPassword')}</Label>
                   <Input
                     id="signup-confirm-password"
                     type="password"
@@ -220,7 +222,7 @@ export default function Auth() {
                 </div>
                 <Button type="submit" className="w-full" disabled={isLoading} data-testid="button-signup-submit">
                   {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {isLoading ? "Creating account..." : "Create Account"}
+                  {isLoading ? t('auth.signingUp') : t('header.signUp')}
                 </Button>
               </form>
             </TabsContent>

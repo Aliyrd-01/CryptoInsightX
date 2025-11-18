@@ -1,7 +1,9 @@
 import { Mail, Send, Github, Twitter } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from '@/lib/i18n';
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="relative border-t border-border/50 bg-card/50 backdrop-blur-sm" data-testid="footer">
       <div className="max-w-7xl mx-auto px-6 py-16">
@@ -11,12 +13,12 @@ export default function Footer() {
               Crypto Analyzer
             </h3>
             <p className="text-sm text-muted-foreground">
-              Professional trading tools for the modern crypto trader. Analyze, execute, and profit with confidence.
+              {t('footer.description')}
             </p>
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-semibold text-lg">Quick Links</h4>
+            <h4 className="font-semibold text-lg">{t('footer.quickLinks')}</h4>
             <div className="flex flex-col space-y-2">
               <Button 
                 variant="ghost" 
@@ -31,7 +33,7 @@ export default function Footer() {
                   }
                 }}
               >
-                Trading Analyzer
+                {t('header.tradingAnalyzer')}
               </Button>
               <Button 
                 variant="ghost" 
@@ -46,7 +48,7 @@ export default function Footer() {
                   }
                 }}
               >
-                Arbitrage Tool
+                {t('header.arbitrageTool')}
               </Button>
               <Button 
                 variant="ghost" 
@@ -54,13 +56,13 @@ export default function Footer() {
                 data-testid="link-demo"
                 onClick={() => console.log('Navigate to Demo')}
               >
-                Demo Mode
+                {t('hero.demoMode')}
               </Button>
             </div>
           </div>
 
           <div className="space-y-4">
-            <h4 className="font-semibold text-lg">Contact Us</h4>
+            <h4 className="font-semibold text-lg">{t('footer.contactUs')}</h4>
             <div className="space-y-3">
               <a 
                 href="mailto:contact@cryptoanalyzer.com" 
@@ -109,7 +111,7 @@ export default function Footer() {
 
         <div className="mt-12 pt-8 border-t border-border/50">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-            <p>© 2024 Crypto Analyzer. All rights reserved.</p>
+            <p>© 2024 Crypto Analyzer. {t('footer.copyright')}</p>
             <div className="flex gap-6">
               <Button 
                 variant="ghost" 
@@ -117,7 +119,7 @@ export default function Footer() {
                 data-testid="link-privacy"
                 onClick={() => console.log('Privacy policy clicked')}
               >
-                Privacy Policy
+                {t('footer.privacy')}
               </Button>
               <Button 
                 variant="ghost" 
@@ -125,7 +127,7 @@ export default function Footer() {
                 data-testid="link-terms"
                 onClick={() => console.log('Terms clicked')}
               >
-                Terms of Service
+                {t('footer.terms')}
               </Button>
             </div>
           </div>
